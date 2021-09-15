@@ -42,6 +42,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
         MyBot 12341241:gebsdfsbsdfbdsf
         Если файла не будет или файл не подойдет под указанные условия, то будет исключение, бот не запустится
          */
+
         try (BufferedReader bufferedReader = new BufferedReader(
                 new FileReader("src/main/resources/botCredentials.ctxt"))) {
             String[] botCredentials = bufferedReader.readLine().split(" ");
@@ -143,6 +144,10 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                             .text("Время оповещений")
                             .callbackData("Time_of_notification")
                             .build()));
+                    buttons.add(Arrays.asList(InlineKeyboardButton.builder()
+                            .text("Назад")
+                            .callbackData("Start")
+                            .build()));
 
                     execute(
                             SendMessage.builder()
@@ -201,6 +206,11 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                             .callbackData("Number:" + i)
                             .build()));
                 }
+                buttons.add(List.of(InlineKeyboardButton
+                        .builder()
+                        .text("Назад")
+                        .callbackData("Settings")
+                        .build()));
                 try {
                     execute(
                             EditMessageReplyMarkup.builder()
@@ -226,8 +236,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                             int a=0;
                             if (split[i].contains("PRIVATBANK")) {
                                 if (size!=1){
-                                profiles.getProfileSettings(chatUserId).removeBank(BankEnum.PRIVATBANK);
-                                break;}
+                                    profiles.getProfileSettings(chatUserId).removeBank(BankEnum.PRIVATBANK);
+                                    break;}
                             } else {
                                 profiles.getProfileSettings(chatUserId).addBank(BankEnum.PRIVATBANK);
                                 if (i==size-1){ break;}
@@ -242,8 +252,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                             String[] split = saved.split(",");
                             if (split[i].contains("MONOBANK")) {
                                 if (size!=1){
-                                profiles.getProfileSettings(chatUserId).removeBank(BankEnum.MONOBANK);
-                                break;}
+                                    profiles.getProfileSettings(chatUserId).removeBank(BankEnum.MONOBANK);
+                                    break;}
                             } else {
                                 profiles.getProfileSettings(chatUserId).addBank(BankEnum.MONOBANK);
                                 if (i==size-1){ break;}
@@ -256,8 +266,8 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                             String[] split = saved.split(",");
                             if (split[i].contains("NBU")) {
                                 if (size!=1){
-                                profiles.getProfileSettings(chatUserId).removeBank(BankEnum.NBU);
-                               break;}
+                                    profiles.getProfileSettings(chatUserId).removeBank(BankEnum.NBU);
+                                    break;}
                             } else {
                                 profiles.getProfileSettings(chatUserId).addBank(BankEnum.NBU);
                                 if (i==size-1){ break;}
@@ -266,6 +276,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                         }
                         break;
                     case "start_page":
+
                         break;
                 }
 
@@ -277,6 +288,11 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                             .callbackData("Bank_enum:" + String.valueOf(bankEnum))
                             .build()));
                 }
+                button.add(List.of(InlineKeyboardButton
+                        .builder()
+                        .text("Назад")
+                        .callbackData("Settings")
+                        .build()));
 
                 try {
                     execute(EditMessageReplyMarkup.builder()
@@ -301,6 +317,11 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                                 .build()));
                     }
                 }
+                button2.add(List.of(InlineKeyboardButton
+                        .builder()
+                        .text("Назад")
+                        .callbackData("Settings")
+                        .build()));
                 try {
                     execute(EditMessageReplyMarkup.builder()
                             .chatId(chatUserId)
@@ -353,6 +374,27 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
                                     .build());
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
+                }
+            case "Start":
+                try {
+                    List<List<InlineKeyboardButton>> buttons1 = new ArrayList<>();
+                    buttons1.add(Arrays.asList(InlineKeyboardButton.builder()
+                            .callbackData("Get")
+                            .text("Получить инфо")
+                            .build()));
+                    buttons1.add(Arrays.asList(InlineKeyboardButton.builder()
+                            .text("Настройки")
+                            .callbackData("Settings")
+                            .build()));
+                    execute(
+                            SendMessage.builder()
+                                    .text("Добро пожаловать. Этот бот поможет отслеживать актуальные курсы валют.")
+                                    .chatId(chatUserId)
+                                    .replyMarkup(InlineKeyboardMarkup.builder().keyboard(buttons1).build())
+                                    .build());
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+
                 }
         }
     }
