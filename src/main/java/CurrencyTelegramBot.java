@@ -91,6 +91,7 @@ public class CurrencyTelegramBot extends TelegramLongPollingBot {
 
     private void messageHandler(Message message) {
         if (message.hasText()) {
+
             String chatUserId = message.getChatId().toString();
             if (message.getText().equals("/start")) {
                 try {
