@@ -2,12 +2,10 @@ package facade;
 
 import bankApi.*;
 import userProfiles.ProfileSettings;
-import userProfiles.Profiles;
 
 import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.function.Supplier;
 
 public class CashApiRequests {
 
@@ -47,11 +45,6 @@ public class CashApiRequests {
                             cashedData.put(item.getKey(), item.getValue());
                             locker.writeLock().unlock();
                         });
-                /*Profiles
-                        .getInstance()
-                        .getAllProfileSettings()
-                        .values()
-                        .forEach(item -> System.out.println(getNotificationForUser(item)));*/
             }
         }, 1000L, 10L * 60L * 1000L);
     }
