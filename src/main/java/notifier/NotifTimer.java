@@ -1,7 +1,5 @@
 package notifier;
 
-import bankApi.BankEnum;
-import facade.CurrencyRate;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import userProfiles.Profiles;
 
